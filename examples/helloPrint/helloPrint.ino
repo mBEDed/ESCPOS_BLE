@@ -1,11 +1,11 @@
-#include "escprinterble.h"
+#include "escpos_ble.h"
 #include "BLEDevice.h"
 
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
 #error Bluetooth is not enabled! or your board don't have one
 #endif
 
-EscPos esc;
+escPos esc;
 uint8_t logoBuffer[12000] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -770,7 +770,7 @@ void setup()
   // You can change service, characteristic UUID for a compatible esc BLE printer
   char *service = "000018F0-0000-1000-8000-00805F9B34FB";
   char *characteristic = "00002AF1-0000-1000-8000-00805F9B34FB";
-  esc = EscPos(service, characteristic);
+  esc = escPos(service, characteristic);
   esc.start();
 
   if (esc.connect())
@@ -784,7 +784,7 @@ void setup()
 
     // ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT
     esc.align(ALIGN_CENTER);
-    esc.println("Tested on esp32-c3");
+    esc.println("Tested on esp-wroom-32");
     esc.println("Ticket Test");
     esc.println("---------------");
     esc.feed(1);
@@ -810,10 +810,9 @@ void setup()
     esc.barcode(BARCODE_CODE128, 30, "123456789", BARCODE_TEXT_BELOW);
     esc.feed(1);
     // size default 3, range 1 to 8
-    esc.codeQR("https://rnrobles.com/", 6);
-    esc.println("https://rnrobles.com/");
+    esc.codeQR("Hello, Print!", 4);
+    esc.println("Hello, Print!");
 
-    // esc.codeQR("https://rnrobles.com/");
     esc.feed(3);
   }
 }

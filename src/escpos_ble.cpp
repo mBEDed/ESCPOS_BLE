@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "escprinterble.h"
+#include "escpos_ble.h"
 #include "BLEDevice.h"
 
 static const char LF = 0x0A;
@@ -74,19 +74,19 @@ class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
   }   // onResult
 };
 
-EscPos::EscPos()
+escPos::escPos()
 {
   serviceUUID = BLEUUID("e7810a71-73ae-499d-8c15-faa9aef0c3f2");
   charUUID = BLEUUID("bef8d6c9-9c21-4c9e-b632-bd58c1009f9f");
 }
 
-EscPos::EscPos(char *service, char *characterictic)
+escPos::escPos(char *service, char *characterictic)
 {
   serviceUUID = BLEUUID(service);
   charUUID = BLEUUID(characterictic);
 }
 
-void EscPos::start()
+void escPos::start()
 {
 
   Serial.println("Starting Arduino BLE Client application...");
@@ -101,13 +101,13 @@ void EscPos::start()
   delay(500);
 }
 
-void EscPos::around(String leftText, String rightText)
+void escPos::around(String leftText, String rightText)
 {
   int width = 32;
   around(leftText, rightText, width);
 }
 
-void EscPos::around(String leftText, String rightText, int width)
+void escPos::around(String leftText, String rightText, int width)
 {
   int leftSpace = leftText.length();
   int rightSpace = rightText.length();
@@ -121,13 +121,13 @@ void EscPos::around(String leftText, String rightText, int width)
   println(rightText);
 }
 
-int EscPos::read()
+int escPos::read()
 {
   /* int result;
   result = pRemoteCharacteristic->readUInt8();
   return result; */
 }
-size_t EscPos::write(uint8_t c)
+size_t escPos::write(uint8_t c)
 {
   if (!connected)
   {
@@ -138,7 +138,7 @@ size_t EscPos::write(uint8_t c)
   delay(10);
   return 1;
 }
-size_t EscPos::cwrite(char c)
+size_t escPos::cwrite(char c)
 {
   if (!connected)
   {
@@ -150,7 +150,7 @@ size_t EscPos::cwrite(char c)
   return 1;
 }
 
-void EscPos::writeData(uint8_t *data, int len)
+void escPos::writeData(uint8_t *data, int len)
 {
   if (!connected)
   {
@@ -172,7 +172,7 @@ void EscPos::writeData(uint8_t *data, int len)
 }
 
 // query error of printer. return 0 if ok, 4 for cover open, 32 for paper end, 64 for other error.
-int EscPos::getStatus()
+int escPos::getStatus()
 {
   this->write(DLE);
   this->write(EOT);
@@ -185,20 +185,20 @@ int EscPos::getStatus()
 }
 
 // Print and feed n lines
-void EscPos::feed(uint8_t n)
+void escPos::feed(uint8_t n)
 {
   this->write(ESC);
   this->write('d');
   this->write(n);
 }
 // Print one line
-void EscPos::feed()
+void escPos::feed()
 {
   this->feed(1);
 }
 
 // Print 80mm paper
-void EscPos::set80mm()
+void escPos::set80mm()
 {
   this->write(GS);
   this->write('W');
@@ -206,7 +206,7 @@ void EscPos::set80mm()
   this->write(2);
 }
 // Print 58mm paper
-void EscPos::set58mm()
+void escPos::set58mm()
 {
   this->write(GS);
   this->write('W');
@@ -215,14 +215,14 @@ void EscPos::set58mm()
 }
 
 // Set line spacing to n/180-inch
-void EscPos::lineSpacing(uint8_t n = 60)
+void escPos::lineSpacing(uint8_t n = 60)
 {
   this->write(ESC);
   this->write('3');
   this->write(n);
 }
 // Select default line spacing to 1/6 inch (n=60)
-void EscPos::defaultLineSpacing()
+void escPos::defaultLineSpacing()
 {
   this->write(ESC);
   this->write('2');
@@ -245,79 +245,79 @@ void EscPos::defaultLineSpacing()
 // 13 = Korea
 // 14 = Slovenia / Croatia
 // 15 = China
-void EscPos::characterSet(uint8_t n = 0)
+void escPos::characterSet(uint8_t n = 0)
 {
   this->write(ESC);
   this->write('R');
   this->write(n);
 }
 
-void EscPos::effectDoubleHeight()
+void escPos::effectDoubleHeight()
 {
   this->write(ESC);
   this->write('!');
   this->write(16);
 }
-void EscPos::effectBold()
+void escPos::effectBold()
 {
   this->write(ESC);
   this->write('!');
   this->write(8);
 }
-void EscPos::effectDoubleWidth()
+void escPos::effectDoubleWidth()
 {
   this->write(ESC);
   this->write('!');
   this->write(32);
 }
-void EscPos::effectUnderline()
+void escPos::effectUnderline()
 {
   this->write(ESC);
   this->write('!');
   this->write(128);
 }
-void EscPos::effectOff()
+void escPos::effectOff()
 {
   this->write(ESC);
   this->write('!');
   this->write(0);
 }
 
-void EscPos::reverseOn()
+void escPos::reverseOn()
 {
   this->write(GS);
   this->write('B');
   this->write(1);
 }
-void EscPos::reverseOff()
+void escPos::reverseOff()
 {
   this->write(GS);
   this->write('B');
   this->write(0);
 }
 
-void EscPos::justify(uint8_t n)
+void escPos::justify(uint8_t n)
 {
   this->write(ESC);
   this->write('a');
   this->write(n);
 }
 
-void EscPos::align(uint8_t n)
+void escPos::align(uint8_t n)
 {
   this->write(ESC);
   this->write('a');
   this->write(n);
 }
 
-void EscPos::partialCut()
+void escPos::partialCut()
 {
   this->write(GS);
   this->write('V');
   this->write(66);
   this->write(0xA); // print buffer and line feed
 }
-void EscPos::fullCut()
+void escPos::fullCut()
 {
   this->write(GS);
   this->write('V');
@@ -325,7 +325,7 @@ void EscPos::fullCut()
   this->write(0xA); // print buffer and line feed
 }
 
-void EscPos::printImage(uint8_t *buffer, int width, int height)
+void escPos::printImage(uint8_t *buffer, int width, int height)
 {
   int pitch = (width + 7) >> 3;
   uint8_t *x;
@@ -349,12 +349,12 @@ void EscPos::printImage(uint8_t *buffer, int width, int height)
   } // for y
 }
 
-void EscPos::barcode(char *code)
+void escPos::barcode(char *code)
 {
   barcode(BARCODE_CODE128, 64, code, BARCODE_TEXT_BELOW);
 }
 
-void EscPos::barcode(int iType, int iHeight, char *code, int iTextPos)
+void escPos::barcode(int iType, int iHeight, char *code, int iTextPos)
 {
   uint8_t len;
   len = (uint8_t)strlen(code);
@@ -386,12 +386,12 @@ void EscPos::barcode(int iType, int iHeight, char *code, int iTextPos)
   this->write(0x00);
 }
 
-void EscPos::codeQR(String code)
+void escPos::codeQR(String code)
 {
   codeQR(code, 3);
 }
 
-void EscPos::codeQR(String code, int size)
+void escPos::codeQR(String code, int size)
 {
   int length = code.length();
   // start code print
@@ -447,7 +447,7 @@ void EscPos::codeQR(String code, int size)
   this->write(48);
 }
 
-void EscPos::disconnect(void)
+void escPos::disconnect(void)
 {
   Serial.println("disconnect ");
   Serial.println(connected);
@@ -461,7 +461,7 @@ void EscPos::disconnect(void)
     }
 }
 
-bool EscPos::connect(void)
+bool escPos::connect(void)
 {
 
   if (myDevice == nullptr)
@@ -524,7 +524,7 @@ bool EscPos::connect(void)
   return true;
 }
 
-void EscPos::connectLoop(void)
+void escPos::connectLoop(void)
 {
   if (doConnect == true)
   {

@@ -6,7 +6,7 @@ micro    KEYWORD1
 receipt    KEYWORD1
 printer    KEYWORD1
 serial    KEYWORD1
-EscPos    KEYWORD1
+escPos    KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 

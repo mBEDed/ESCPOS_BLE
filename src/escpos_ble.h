@@ -1,5 +1,5 @@
-#ifndef escprinterble_h
-#define escprinterble_h
+#ifndef escpos_ble_h
+#define escpos_ble_h
 
 #include "Arduino.h"
 #include "BLEDevice.h"
@@ -34,11 +34,11 @@ enum Justify
   JUSTIFY_RIGHT = 2
 };
 
-class EscPos : public Print
+class escPos : public Print
 {
 public:
-  EscPos();
-  EscPos(char *service, char *characteristic);
+  escPos();
+  escPos(char *service, char *characteristic);
 
   void effectBold();
   void effectDoubleHeight();
