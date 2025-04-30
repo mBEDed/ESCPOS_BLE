@@ -8,11 +8,12 @@ An ESP32 board with Bluetooth BLE and an ESC Bluetooth BLE thermal printer, know
 
 ## Tested
 
-- Pretty sure it's Chinese (But they say it's **MADE IN INDIA**) ESC/POS printer called "B-41" & ESP32-C3, ESP-WROOM-32
+- **Printer:** Pretty sure it's Chinese (But they say it's **MADE IN INDIA**) ESC/POS printer called "B-41"
+- **μC:** ESP32-C3, ESP-WROOM-32
 
 [![IMAGE ALT TEXT HERE](https://a.media-amazon.com/images/I/41mCgtYHRnL._SX300_SY300_QL70_FMwebp_.jpg)]( )
 
-- You can get it from the links below **(NON-AFFILIATED)**
+- You can get printer from the links below **(NON-AFFILIATED)**
     - https://www.seznik.in/products/seznik-bluetooth-receipt-printer-58-mm-rechargeble-inkless-thermal-receipt-printer-mobile-desktop-compatible-receipt-printer-1
     - https://amzn.in/d/fw2ATRD
 
