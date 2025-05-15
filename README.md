@@ -4,7 +4,7 @@ A Library to control an ESC printer by an ESP32 via Bluetooth BLE.
 
 ## Requirements
 
-An ESP32 board with Bluetooth BLE and an ESC Bluetooth BLE thermal printer, knowing the UUID of the service and the characteristic.
+An ESP32 board with it's board installed(v3.2.0 or above) in arduino ide with Bluetooth BLE and an ESC Bluetooth BLE thermal printer, knowing the UUID of the service and the characteristic.
 
 ## Tested
 
